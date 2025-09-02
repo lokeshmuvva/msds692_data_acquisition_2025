@@ -18,19 +18,16 @@ def retrieve_data_from_urls(urls: list) -> list:
     a list of unique dictionaries
     which includes all the data from url in url_list.
     """
-    all_links = set()
-    filtered_jobs = []
+    all_jobs = []
 
     for url in urls:
         r = requests.get(url)
         data = pickle.loads(r.content)
-        for job in data:
-            link = job["link"]
-            if link not in all_links:
-                filtered_jobs.append(job)
-                all_links.add(link)
+        all_jobs.extend(data)
 
-    return filtered_jobs
+    df_jobs = pd.DataFrame(all_jobs)
+    df_unique = df_jobs.drop_duplicates()
+    return df_unique.to_dict("records")
 
 
 def filter_by_company(data: pd.DataFrame,
@@ -43,9 +40,10 @@ def filter_by_company(data: pd.DataFrame,
     st.sidebar.markdown("Filter by Company")
 
     selected_companies = []
-    for company in company_dict:
-        if st.sidebar.checkbox(company):
-            selected_companies.append(company)
+    with st.sidebar:
+        for company in company_dict:
+            if st.checkbox(company):
+                selected_companies.append(company)
 
     if len(selected_companies) == 0:
         return pd.DataFrame()
@@ -53,7 +51,6 @@ def filter_by_company(data: pd.DataFrame,
     filtered_companies = pd.DataFrame()
     for company in selected_companies:
         substring_link = company_dict[company]
-
         link_matches = data[data["link"].str.contains(substring_link,
                                                       case=False,
                                                       na=False,
