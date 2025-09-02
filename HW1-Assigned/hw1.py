@@ -22,13 +22,14 @@ def retrieve_data_from_urls(urls: list) -> list:
     filtered_jobs = []
 
     for url in urls:
-        r = requests.get(url, timeout=30)
+        r = requests.get(url)
         data = pickle.loads(r.content)
         for job in data:
             link = job["link"]
             if link not in all_links:
                 filtered_jobs.append(job)
                 all_links.add(link)
+
     return filtered_jobs
 
 
@@ -49,16 +50,16 @@ def filter_by_company(data: pd.DataFrame,
     if len(selected_companies) == 0:
         return pd.DataFrame()
 
-    substrings = []
+    filtered_companies = pd.DataFrame()
     for company in selected_companies:
         substring_link = company_dict[company]
-        substrings.append(substring_link)
 
-    filtered_companies = pd.DataFrame()
-    for substring_link in substrings:
-        matches = data[data["link"].str.contains(substring_link)]
-        filtered_companies = pd.concat(
-            [filtered_companies, matches]).drop_duplicates()
+        link_matches = data[data["link"].str.contains(substring_link,
+                                                      case=False,
+                                                      na=False,
+                                                      regex=False)]
+        filtered_companies = pd.concat([filtered_companies,
+                                        link_matches]).drop_duplicates()
     return filtered_companies
 
 
@@ -67,7 +68,12 @@ if __name__ == '__main__':
     jobs_list = retrieve_data_from_urls(url_list)
     df = pd.DataFrame(jobs_list)
     filtered_df = filter_by_company(df, company_dictionary)
-    display_df = filtered_df[["date", "title", "link"]]
+
+    if filtered_df.empty:
+        display_df = pd.DataFrame(columns=["date", "title", "link"])
+    else:
+        display_df = filtered_df[["date", "title", "link"]]
+
     st.dataframe(
         display_df,
         column_config={"link": st.column_config.LinkColumn("Link")}
