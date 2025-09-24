@@ -1,0 +1,34 @@
+services:
+  streamlit: 
+    build: ./streamlit # build from a Dockerfile in streamlit folder
+    ports:  # the port mappings between the host machine and the container
+      - "80:8501" # map host's port 80 to container's 8501
+    env_file: #  specify one or more files that contain environment variables
+      - .env
+    depends_on: # To control the order of service startup and shutdown.
+      - fastapi # depends on it
+    networks:
+      - app-network # name of the network
+    volumes: # specify a volume mount (VOLUME:CONTAINER_PATH), or an access mode (VOLUME:CONTAINER_PATH:ACCESS_MODE).
+      - /Users/lokeshmuvva/.ssh/thinking-leaf-469722-e9-4b57325dd8ca.json:/tmp/gcp-key.json
+  fastapi:
+    build: ./fastapi # build from a Dockerfile in fastapi folder
+    ports:
+      - "8000:8000"
+    networks:  #  Specify which networks the containers for that service should connect to/communicate with.
+      - app-network
+    env_file: #  specify one or more files that contain environment variables
+      - .env
+    volumes:
+      - /Users/lokeshmuvva/.ssh/thinking-leaf-469722-e9-4b57325dd8ca.json:/tmp/gcp-key.json
+  cron:
+    build: ./crontab
+    env_file: #  specify one or more files that contain environment variables
+      - .env
+    depends_on: # To control the order of service startup and shutdown.
+      - fastapi # depends on it
+    networks:
+      - app-network # name of the network
+networks: # Networks let services communicate with each other
+  # By default, services can all communicate.
+  app-network: # In this case, we don't actually need extra network. 
