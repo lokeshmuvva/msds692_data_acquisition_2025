@@ -3,7 +3,7 @@ import pytest
 from playwright.sync_api import Page, expect
 
 # Adjust this to wherever your Streamlit app runs
-APP_URL = "http://localhost:80"
+APP_URL = "http://localhost"
 
 
 @pytest.mark.parametrize("url", [APP_URL])
