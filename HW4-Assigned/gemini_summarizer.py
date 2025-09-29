@@ -40,3 +40,19 @@ def return_gemini_summary(qualification: dict) -> list:
     It would be desirable to provide tools or algorithms
     that are relevant to requirements.
     """
+    client = genai.Client(api_key=gemini_key)
+    response = client.models.generate_content(
+        model="gemini-2.5-flash",
+        config=types.GenerateContentConfig(
+            system_instruction=system_instruction
+        ),
+        contents=json.dumps(qualification),
+    )
+
+    try:
+        return json.loads(response.text.strip())
+    except json.JSONDecodeError:
+        text = response.text.strip()
+        text = text.replace('[', '').replace(']', '').replace('"', '').replace("'", '')
+        skills = [skill.strip() for skill in text.split(",") if skill.strip()]
+        return skills
