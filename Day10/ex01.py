@@ -1,10 +1,12 @@
-from dotenv import load_dotenv
 import os
+from dotenv import load_dotenv
 
 import streamlit as st
 import google.generativeai as genai
 
-load_dotenv()
+load_dotenv(
+    dotenv_path="/Users/lokeshmuvva/Documents/F25_1/msds692_data_acquisition_2025/Day10/.env"
+    )
 
 model = genai.GenerativeModel("gemini-2.5-flash")
 genai.configure(api_key=os.getenv('GEMINI_API_KEY'))
@@ -33,15 +35,15 @@ if prompt:
     # Stream assistant response
     with st.chat_message("assistant"):
         placeholder = st.empty()
-        response_text = ""
+        RESPONSE_TEXT = " "
 
         # Streaming from API
         response = chat.send_message(prompt, stream=True)
 
     for chunk in response:
-        response_text += chunk.text
-        placeholder.markdown(response_text)
+        RESPONSE_TEXT += chunk.text
+        placeholder.markdown(RESPONSE_TEXT)
 
     # Save assistant message
     st.session_state.messages.append(
-        {"role": "assistant", "content": response_text})
+        {"role": "assistant", "content": RESPONSE_TEXT})

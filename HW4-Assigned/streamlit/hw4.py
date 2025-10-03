@@ -89,33 +89,6 @@ if __name__ == '__main__':
                            .str.startswith(tuple(selected_categories))]
 
     # TODO - Return date, title, skills, and link from the filtered_df.
-    # for link in filtered_df['link']:
-    #     if "meta" in link:
-    #         m_quals = retrieve_meta_career_qualification(link)
-    #         if m_quals:
-    #             m_summary = return_gemini_summary(m_quals)
-    #             if m_summary:
-    #                 filtered_df.loc[filtered_df['link'] == link, 'skills'] = ', '.join(m_summary)
-    #             else:
-    #                 filtered_df.loc[filtered_df['link'] == link, 'skills'] = 'N/A'
-    #         else:
-    #             filtered_df.loc[filtered_df['link'] == link, 'skills'] = 'N/A'
-    #     elif "google" in link:
-    #         g_quals = retreive_google_career_qualification(link)
-    #         if g_quals:
-    #             g_summary = return_gemini_summary(g_quals)
-    #             if g_summary:
-    #                 filtered_df.loc[filtered_df['link'] == link, 'skills'] = ', '.join(g_summary)
-    #             else:
-    #                 filtered_df.loc[filtered_df['link'] == link, 'skills'] = 'N/A'
-    #         else:
-    #             filtered_df.loc[filtered_df['link'] == link, 'skills'] = 'N/A'
-    #     else:
-    #         filtered_df.loc[filtered_df['link'] == link, 'skills'] = 'N/A'
-    #
-    # if filtered_df.empty:
-    #     filtered_df = pd.DataFrame(columns=["date", "title", "skills", "link"])
-    # else:
         filtered_df = filtered_df[["date", "title", "skills", "link"]]
 
     st.dataframe(filtered_df,

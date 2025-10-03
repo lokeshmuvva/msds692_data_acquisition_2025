@@ -14,9 +14,15 @@ def test_google_parser():
 
 
 def test_meta_parser():
-    url = 'https://www.metacareers.com/jobs/1440946287176762'
-    answer = {'Minimum Qualifications': ["Bachelor's degree in Computer Science, Computer Engineering, relevant technical field, or equivalent practical experience", '8+ years of experience (4 years+ of experience post Ph.D.) with advanced SQL in big data environments (e.g., Hive, Presto, Spark) and data modeling', '8+ years of experience (4 years+ of experience post Ph.D.) managing and analyzing large-scale data using Python, R, or similar languages', '8+ years of experience (4 years+ of experience post Ph.D.) of working with visualization tools such as Tableau, PowerBI, or similar', '8+ years experience (4 years+ of experience post Ph.D.) analyzing and interpreting data, developing metrics, drawing conclusions, recommending actions, and reporting results across stakeholders', 'Experience in enhancing data collection procedures, data processing, cleansing, and verifying the integrity of data used for analysis',
-                                         'Proven track record of managing and leading cross-functional projects and teams', 'Solid understanding of machine learning techniques and algorithms', 'Hands-on programming experience in one or more of: AI/ML, LLM, NLP, Statistical modeling', 'Proficient in statistical analysis and experimental design'], 'Preferred Qualifications': ['Technical knowledge of data center operations', 'Masters degree in Computer Science, Engineering, Mathematics, Statistics, Operations Research, or a related analytical field', 'Knowledge of simulation and optimization techniques', 'Communication and storytelling skills to influence all organizational levels (engineers, executives and cross functional teams) to drive business decisions']}
+    url = 'https://www.metacareers.com/jobs/1516686172846137'
+    answer = {'Minimum Qualifications': ['Bachelor\'s degree (or foreign degree equivalent) in Computer Science, Engineering, Information Systems, Analytics, Mathematics, Physics, Applied Sciences, or a related field and 1 year of experience in the job offered or a computer-related field. Experience must include 1 year of experience in the following:',
+                                         '1. Coding in at least one of the following industry-standard languages: C, C++, Java, or C#',
+                                         '2. Building large-scale infrastructure applications',
+                                         '3. Creating web applications using at least one of the following: Python, PHP, or Ruby',
+                                         '4. Relational databases',
+                                         '5. SQL',
+                                         '6. Implementing web interfaces using at least one of the following: JavaScript, HTML, or CSS',
+                                         ]}
     returned_output = retrieve_meta_career_qualification(url)
     assert returned_output == answer
 

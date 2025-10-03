@@ -3,7 +3,7 @@ import os
 from dotenv import load_dotenv
 
 # Load environment variables from .env file
-load_dotenv()
+load_dotenv(dotenv_path="/Users/lokeshmuvva/Documents/F25_1/msds692_data_acquisition_2025/HW4-Assigned/.env")
 project_id = os.getenv('PROJECT_ID')
 bucket_name = os.getenv('GCP_BUCKET_NAME')
 service_account_file_path = os.getenv('GCP_SERVICE_ACCOUNT_KEY')

@@ -53,6 +53,20 @@ def return_gemini_summary(qualification: dict) -> list:
         return json.loads(response.text.strip())
     except json.JSONDecodeError:
         text = response.text.strip()
-        text = text.replace('[', '').replace(']', '').replace('"', '').replace("'", '')
-        skills = [skill.strip() for skill in text.split(",") if skill.strip()]
-        return skills
+        text = text.replace('```json', '').replace('```', '').strip()
+
+        try:
+            return json.loads(text)
+        except json.JSONDecodeError:
+            text = (
+                text.replace('[', '')
+                    .replace(']', '')
+                    .replace('"', '')
+                    .replace("'", '')
+            )
+            skills = [
+                skill.strip()
+                for skill in text.split(',')
+                if skill.strip()
+            ]
+            return skills
